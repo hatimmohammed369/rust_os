@@ -1,0 +1,2 @@
+By default Rust code is linked its standard library which depends on the OS and the C standard library. So we can use these OS-dependent features since we are making our own OS
+We disable all this (linking Rust code to its standard library) by the no_std attribute in src/main.rs
