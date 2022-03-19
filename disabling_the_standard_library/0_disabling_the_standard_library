@@ -10,3 +10,11 @@ and also says
 error: `#[panic_handler]` function required, but not found
 error: language item required, but not found: `eh_personality`
 eh_personality is also defined in the standard library
+
+Running (cargo build) with an empty main will result in these
+errors:
+> cargo build
+error: `#[panic_handler]` function required, but not found
+error: language item required, but not found: `eh_personality`
+
+eh_personality is something called a (language item), this name marks a function that's called on panic to free used memory. What this function does is called (Stack Unwinding), however (Stakc Unwinding) is a complicated process and it requires some OS-specific library. So we will disable it
