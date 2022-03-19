@@ -18,3 +18,15 @@ error: `#[panic_handler]` function required, but not found
 error: language item required, but not found: `eh_personality`
 
 eh_personality is something called a (language item), this name marks a function that's called on panic to free used memory. What this function does is called (Stack Unwinding), however (Stakc Unwinding) is a complicated process and it requires some OS-specific library. So we will disable it
+
+
+Running (cargo build) one again gives this:
+error: requires `start` lang_item
+
+Before fn main starts, Rust runtime has to initialized which itself depends on crt0 ("C Runtime Zero").
+So crt0 is first initialized which calls this required (start) which is the entry point of the Rust runtime system, and then the Rust tuntime calls fn main
+Our freestanding binary can not access Rust runtime and thus crt0, so we need to define our (start), but this is not the right thing to do because we still needed crt0 to call our home-made (start)
+Instead we need to ditch both Rust runtime and crt0 and that's by adding the #![no_main] attribute in main.rs to tell the compiler we're not using the usual entry point of rust runtime
+And now we have no runtime to call main because we deleted both runtimes we also delete main since there's no runtime to call it
+This new home-made (start) overrides crt0 entry point because WE DON'T want to use crt0, which is OS-dependent, since we're build an operating system
+Instead of crt0 => Rust runtime => main we make out own entry point
