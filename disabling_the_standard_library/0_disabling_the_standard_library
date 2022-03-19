@@ -1,0 +1,12 @@
+By default Rust code is linked its standard library which depends on the OS and the C standard library. So we can use these OS-dependent features since we are making our own OS
+We disable all this (linking Rust code to its standard library) by the no_std attribute in src/main.rs
+
+Trying to compile src/main.rs with println!("Hello, world!"); inside fn main the compiler says it can not find println! because
+it's in the standard library which is
+no longer available because of #![no_std] attribute
+When (cargo build) with println! uncommented
+compiler says it can't find println! which makes sense
+and also says
+error: `#[panic_handler]` function required, but not found
+error: language item required, but not found: `eh_personality`
+eh_personality is also defined in the standard library
