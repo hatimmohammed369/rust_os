@@ -1,0 +1,4 @@
+1 - A Freestanding Rust Binary
+    Creating a rust executable that can run directly on hardware without the need for any Operating System utilities because we want to build an Operating System
+We create a rust binary that does not link the Rust standard library
+Such binary is called "Freestanding" or "bare-metal"
